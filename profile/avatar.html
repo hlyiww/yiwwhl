@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile -- Avatar</title>
+    <style>
+        #avatar-container {
+            width: 640px;
+            height: 640px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            display: grid;
+            grid-template-columns: repeat(8, 12.5%);
+            grid-template-rows: repeat(8, 12.5%);
+        }
+        #avatar-container > div {
+            width: 100%;
+            height: 100%;
+        }
+        #avatar-container::after {
+            display: block;
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: radial-gradient(closest-side, #f3f1e310, #ffffff20, #2a1a0850);
+        }
+    </style>
+</head>
+<body>
+    <div id="avatar-container"></div>
+    <script>
+        const ColorMap = {
+            '#44291a': [21, 26, 37, 38, 46, 51, 52, 53],
+            '#fff': [22, 27],
+            '#f0db87':[34, 35, 36],
+        }
+        const flatColorMap = {}
+        for(let color in ColorMap) {
+            ColorMap[color].forEach((index) => {
+                flatColorMap[index] = color
+            })
+        }
+        const avatatContainer = document.getElementById('avatar-container')
+        const domProducer = (length = 64) => {
+            const frameElement = document.createDocumentFragment()
+            for(let i = 0; i<length; i++) {
+                const div = document.createElement('div')
+                if(i < Math.ceil(length / 2)) {
+                    div.style.background = '#f0db87'
+                } else {
+                    div.style.background = '#f5efdb'
+                }
+                if(i in flatColorMap) {
+                    div.style.background = flatColorMap[i]
+                } 
+                frameElement.appendChild(div)
+            }
+            return frameElement
+        }
+        avatatContainer.appendChild(domProducer())
+    </script>
+</body>
+</html>
